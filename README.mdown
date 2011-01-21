@@ -1,0 +1,72 @@
+Description
+===========
+
+XMPP Gateway provides a HTTP interface to talking to an XMPP server. It is designed to speed up and simplify communications between a web app and a generic XMPP server. It achieves this by taking care of the XMPP connection management, and allowing the sending and receiving of replies via a very simple synchronous HTTP interface.
+
+HTTP Basic Authentication is used to provide the credentials for authenticating an XMPP session. An XMPP stanza can then be sent by making a HTTP Post (see 'Operation' below).
+
+There are 3 stanza types in XMPP: IQ, message and presence. IQ always expects a reply, and this will be returned in the body of the HTTP response. Message and presence are purely fire and forget.
+
+Currently it is not production ready and merely a proof of concept.
+
+Requirements
+============
+
+- ruby 1.9.2
+- bundler
+
+Operation
+=========
+
+To install the gems
+
+    $ bundle install
+
+To start the server
+
+    $ ruby lib/xmpp_gatway
+   
+Server should now be available on [http://127.0.0.1](http://127.0.0.1)
+
+To send a message:
+
+    $ curl --user YOURNAME@jabber.org:PASSWORD --data "stanza=<message to='theozaurus@jabber.org'><body>Howdy</body></message>" http://127.0.0.1:8000
+    
+To send an IQ:
+
+    $ curl --user YOURNAME@jabber.org:PASSWORD -d "stanza=<iq to='jabber.org'><query xmlns='http://jabber.org/protocol/disco#info'/></iq>" http://127.0.0.1:8000
+    <iq type="result" id="blather0007" from="jabber.org" to="theozaurus@jabber.org/457fd1b2e49ebb39">
+      <query xmlns="http://jabber.org/protocol/disco#info">
+        <identity category="server" type="im" name="Isode M-Link 14.6a6"/>
+        <identity category="pubsub" type="pep"/>
+        <feature var="http://jabber.org/protocol/disco#info"/>
+        <feature var="http://jabber.org/protocol/disco#items"/>
+        <feature var="urn:xmpp:ping"/>
+        <feature var="vcard-temp"/>
+        <feature var="http://jabber.org/protocol/commands"/>
+        <feature var="http://jabber.org/protocol/compress"/>
+        <feature var="jabber:iq:auth"/>
+        <feature var="jabber:iq:private"/>
+        <feature var="jabber:iq:version"/>
+        <feature var="http://jabber.org/protocol/pubsub#access-presence"/>
+        <feature var="http://jabber.org/protocol/pubsub#auto-create"/>
+        <feature var="http://jabber.org/protocol/pubsub#auto-subscribe"/>
+        <feature var="http://jabber.org/protocol/pubsub#create-nodes"/>
+        <feature var="http://jabber.org/protocol/pubsub#filtered-notifications"/>
+        <feature var="http://jabber.org/protocol/pubsub#publish"/>
+        <feature var="http://jabber.org/protocol/pubsub#retrieve-items"/>
+        <feature var="http://jabber.org/protocol/pubsub#subscribe"/>
+      </query>
+    </iq>
+
+
+TODO
+====
+
+- Test suite
+- Tidy old connections up
+- Logging
+- Implement persistent connections so that subsequent requests do not have to re-authenticate with the XMPP server
+- Come up with an easy way to deploy and monitor including port options
+- Add HTTP callbacks so that asynchronous events can be fed back to the HTTP server
+- HTTPS support

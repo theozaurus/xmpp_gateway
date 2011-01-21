@@ -1,0 +1,16 @@
+GEM
+  remote: http://rubygems.org/
+  specs:
+    blather (0.4.15)
+      eventmachine (>= 0.12.6)
+      nokogiri (>= 1.4.0)
+    eventmachine (0.12.10)
+    eventmachine_httpserver (0.2.1)
+    nokogiri (1.4.4)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  blather
+  eventmachine_httpserver
