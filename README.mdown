@@ -26,7 +26,7 @@ To start the server
 
     $ ruby lib/xmpp_gatway
    
-Server should now be available on [http://127.0.0.1](http://127.0.0.1)
+Server should now be available on [http://127.0.0.1:8000](http://127.0.0.1:8000)
 
 To send a message:
 
