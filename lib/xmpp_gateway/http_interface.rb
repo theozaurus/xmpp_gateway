@@ -2,7 +2,7 @@ require 'evma_httpserver'
 require 'base64'
 require 'cgi'
 
-require_relative 'xmpp_interface'
+require_relative 'xmpp_pool'
 
 module XmppGateway
   class HttpInterface < EM::Connection
@@ -33,13 +33,13 @@ module XmppGateway
       Fiber.new{        
         if acceptable_method?
           user, password = credentials
-          @connection = XmppInterface.new( user, password )
+          @connection = XmppPool.new( user, password )
           if @connection.connected
             case @http_request_method
             when "GET"
               get.send_response
             when "POST"
-              stanza = XmppInterface.stanza(post_params['stanza'])
+              stanza = XmppPool.stanza(post_params['stanza'])
               if stanza
                 result = @connection.write stanza
                 response(result).send_response

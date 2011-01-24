@@ -21,12 +21,19 @@ module XmppGateway
       f = Fiber.current
       
       @client = Blather::Client.setup jid, password  
-      @client.register_handler(:ready){ f.resume( true ) if f.alive? }
+      @client.register_handler(:ready) do
+        @connected = true
+        f.resume( @connected ) if f.alive?
+      end
+      @client.register_handler(:disconnected) do
+        @connected = false
+        f.resume( @connected ) if f.alive?
+        # Prevent EventMachine from stopping by returning true on disconnected
+        true
+      end
       @client.clear_handlers(:error)
       @client.register_handler(:error){ f.resume( false ) if f.alive? }
-      # Prevent EventMachine from stopping by returning true on disconnected
-      @client.register_handler(:disconnected){ true }
-      
+       
       begin
         @client.run
       rescue
