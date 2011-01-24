@@ -87,7 +87,7 @@ module XmppGateway
       response = EM::DelegatedHttpResponse.new(self)
       response.status = 200
       response.content_type 'application/xml'
-      response.content = stanza
+      response.content = stanza.to_s + "\n"
       return response
     end
     
@@ -98,7 +98,7 @@ module XmppGateway
       response.status = 401
       response.content_type 'text/html'
       response.headers = {"WWW-Authenticate" => 'Basic realm="Secure Area"'}
-      response.content = "Unauthorised"
+      response.content = "Unauthorised\n"
       return response
     end
     
@@ -108,7 +108,7 @@ module XmppGateway
       response = EM::DelegatedHttpResponse.new(self)
       response.status = 405
       response.content_type 'text/html'
-      response.content = "Method not allowed"
+      response.content = "Method not allowed\n"
       return response
     end
     
@@ -118,7 +118,7 @@ module XmppGateway
       response = EM::DelegatedHttpResponse.new(self)
       response.status = 400
       response.content_type 'text/html'
-      response.content = "Please send a valid stanza"
+      response.content = "Please send a valid stanza\n"
       return response
     end
     
@@ -140,7 +140,7 @@ module XmppGateway
           "</iq>" +
         "</textarea>" +
         "<input type='submit' value='Submit'/>" +
-      "</form>"
+      "</form>\n"
       return response
     end
   
