@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+
+begin
+  require "xmpp_gateway"
+rescue LoadError
+  xmpp_gateway_path = File.expand_path('../../lib', __FILE__)
+  $:.unshift(xmpp_gateway_path)
+  require "xmpp_gateway"
+end

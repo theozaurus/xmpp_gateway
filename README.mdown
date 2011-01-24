@@ -13,18 +13,17 @@ Requirements
 ============
 
 - ruby 1.9.2
-- bundler
 
 Operation
 =========
 
 To install the gems
 
-    $ bundle install
+    $ gem install xmpp_gateway
 
 To start the server
 
-    $ ruby lib/xmpp_gatway
+    $ xmpp_gateway --debug
    
 Server should now be available on [http://127.0.0.1:8000](http://127.0.0.1:8000)
 
@@ -64,7 +63,5 @@ TODO
 ====
 
 - Test suite
-- Tidy old connections up
-- Come up with an easy way to deploy and monitor including port options
 - Add HTTP callbacks so that asynchronous events can be fed back to the HTTP server
 - HTTPS support
