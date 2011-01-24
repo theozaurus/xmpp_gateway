@@ -17,14 +17,19 @@ module XmppGateway
       @jid = Blather::JID.new(user)
       if record = connections[@jid.to_s]
         # Connection exists
+        XmppGateway.logger.debug "Reusing XMPP connection #{@jid}"
+        
         @connection = record[:connection]
         @connected  = record[:password] == password
       else
         # Create connection
+        XmppGateway.logger.debug "Creating XMPP connection #{@jid}"
+        
         @connection = XmppInterface.new(user, password)
         @connected  = @connection.connected
         @connection.client.register_handler(:disconnected) do
           @connected = false
+          XmppGateway.logger.debug "Removing XMPP connection #{@jid} due to disconnection"
           connections.delete(@jid)
         end
         

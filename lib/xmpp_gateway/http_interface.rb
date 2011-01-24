@@ -10,6 +10,7 @@ module XmppGateway
     include EM::HttpServer
 
     def self.start(host = '127.0.0.1', port = 8000)
+      XmppGateway.logger.info "Starting server at http://#{host}:#{port}"
       EM.start_server(host, port, self)
     end
     
@@ -29,6 +30,8 @@ module XmppGateway
       #   @http_query_string
       #   @http_post_content
       #   @http_headers
+      
+      XmppGateway.logger.info "Received request #{@http_request_method} #{post_params.inspect}"
       
       Fiber.new{        
         if acceptable_method?
@@ -79,6 +82,8 @@ module XmppGateway
     end
     
     def response(stanza)
+      XmppGateway.logger.debug "Success"
+      
       response = EM::DelegatedHttpResponse.new(self)
       response.status = 200
       response.content_type 'application/xml'
@@ -87,6 +92,8 @@ module XmppGateway
     end
     
     def unauthorized
+      XmppGateway.logger.debug "Unauthorized, username & password wrong"
+      
       response = EM::DelegatedHttpResponse.new(self)
       response.status = 401
       response.content_type 'text/html'
@@ -96,6 +103,8 @@ module XmppGateway
     end
     
     def method_not_allowed
+      XmppGateway.logger.debug "Method #{@http_request_method} not allowed"
+      
       response = EM::DelegatedHttpResponse.new(self)
       response.status = 405
       response.content_type 'text/html'
@@ -104,6 +113,8 @@ module XmppGateway
     end
     
     def bad_request
+      XmppGateway.logger.debug "Bad request '#{post_params['stanza']}' is not a valid stanza"
+      
       response = EM::DelegatedHttpResponse.new(self)
       response.status = 400
       response.content_type 'text/html'
@@ -112,6 +123,8 @@ module XmppGateway
     end
     
     def get
+      XmppGateway.logger.debug "Success, send stanza form"
+      
       response = EM::DelegatedHttpResponse.new(self)
       response.status = 200
       response.content_type 'text/html'      

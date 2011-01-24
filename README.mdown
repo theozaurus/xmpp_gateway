@@ -65,8 +65,6 @@ TODO
 
 - Test suite
 - Tidy old connections up
-- Logging
-- Implement persistent connections so that subsequent requests do not have to re-authenticate with the XMPP server
 - Come up with an easy way to deploy and monitor including port options
 - Add HTTP callbacks so that asynchronous events can be fed back to the HTTP server
 - HTTPS support

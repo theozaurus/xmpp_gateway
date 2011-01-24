@@ -42,16 +42,24 @@ module XmppGateway
       
       # Waits until it has connected unless an error was thrown
       @connected = Fiber.yield if @connected.nil?
+      
+      XmppGateway.logger.debug "XMPP connection #{jid} #{@connected ? '' : 'not '}connected"
     end
     
     def write(stanza)
+      XmppGateway.logger.debug "Sending stanza #{stanza.to_s}"
+      
       f = Fiber.current
 
       @client.write_with_handler( stanza ){|result|
         f.resume(result) if f.alive?
       }
       
-      return Fiber.yield if reply_expected stanza
+      if reply_expected stanza
+        reply = Fiber.yield
+        XmppGateway.logger.debug "Received #{reply}"
+        return reply
+      end
     end
     
   private    
