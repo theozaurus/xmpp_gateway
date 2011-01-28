@@ -8,11 +8,11 @@ options = {
 optparse = OptionParser.new do |opts|
   opts.banner = "Run with #{$0}"
 
-  opts.on('-b', '--bind', "What address to bind to, by default #{options[:bind]}") do |bind|
+  opts.on('-b', '--bind [ADDRESS]', "What address to bind to, by default #{options[:bind]}") do |bind|
     options[:bind] = bind
   end
   
-  opts.on('-p', '--port', "What port to bind to, by default #{options[:port]}") do |port|
+  opts.on('-p', '--port [PORT]', "What port to bind to, by default #{options[:port]}") do |port|
     options[:port] = port
   end
 
@@ -24,7 +24,7 @@ optparse = OptionParser.new do |opts|
     options[:daemonize] = daemonize
   end
 
-  opts.on('-p', '--pid', 'Write the PID to this file') do |pid|
+  opts.on('-p', '--pid [FILE]', 'Write the PID to this file') do |pid|
     if !File.writable?(File.dirname(pid))
       $stderr.puts "Unable to write log file to #{pid}"
       exit 1
@@ -32,7 +32,7 @@ optparse = OptionParser.new do |opts|
     options[:pid] = pid
   end
 
-  opts.on('-l', '--log', 'Write the Log to this file instead of stdout/stderr') do |log|
+  opts.on('-l', '--log [LOG]', 'Write the Log to this file instead of stdout/stderr') do |log|
     if !File.writable?(File.dirname(log))
       $stderr.puts "Unable to write log file to #{log}"
       exit 1
