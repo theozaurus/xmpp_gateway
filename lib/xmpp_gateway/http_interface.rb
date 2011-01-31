@@ -72,7 +72,8 @@ module XmppGateway
     end
     
     def post_params
-      @_post_params ||= Hash[@http_post_content.split('&').map{|kv| kv.split('=',2).map{|v| CGI.unescape v } }]
+      string = @http_post_content || ''
+      @_post_params ||= Hash[string.split('&').map{|kv| kv.split('=',2).map{|v| CGI.unescape v } }]
     end
     
     def credentials
