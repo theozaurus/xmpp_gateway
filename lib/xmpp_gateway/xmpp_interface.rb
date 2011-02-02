@@ -74,6 +74,7 @@ module XmppGateway
   private    
 
     def schedule_activity_monitor
+      cancel_timer
       @timer = EventMachine::Timer.new(60) do
         XmppGateway.logger.debug "XMPP connection #{@jid} inactive for over 60 seconds"
         @client.close if @connected
