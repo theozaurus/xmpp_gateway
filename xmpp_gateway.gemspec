@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = "xmpp_gateway"
-  s.version     = "0.0.3"
+  s.version     = "0.0.3.1"
   s.platform    = Gem::Platform::RUBY
   s.license     = 'MIT'
   s.author      = "Theo Cushion"
@@ -11,8 +11,8 @@ Gem::Specification.new do |s|
  
   s.required_ruby_version     = '>= 1.9.2'
   s.required_rubygems_version = ">= 1.3.6"
-  
-  s.add_dependency  'blather'
+
+  s.add_dependency  'blather', '<0.5.11'
   s.add_dependency  'eventmachine_httpserver'
   
   s.files        = Dir.glob("{bin,lib}/**/*") + %w(LICENSE README.mdown)
